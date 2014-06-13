@@ -1,4 +1,3 @@
-//привет
 /**
 * Events that can be recieved by achievements
 *
