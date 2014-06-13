@@ -69,7 +69,7 @@ GameManager.prototype.setup = function () {
   // Update the actuator
   this.actuate();
 
-  this.emit("start");
+  this.emit("start", { previousState: previousState });
 };
 
 // Set up the initial tiles to start the game with
@@ -185,7 +185,7 @@ GameManager.prototype.move = function (direction) {
           // The mighty 2048 tile
           if (merged.value === 2048) {
             self.won = true;
-            self.emit("won");
+            self.emit("win");
           }
         } else {
           self.moveTile(tile, positions.farthest);

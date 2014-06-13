@@ -7,6 +7,18 @@ AchievementsManager.achievements = {};
 AchievementsManager.register = function (achievement) {
   achievement.isUnlocked = false;
   achievement.isShown = false;
+
+  var title = achievement.title,
+    description = achievement.description;
+  delete achievement.title;
+  delete achievement.description;
+  Object.defineProperty(achievement, 'title', {
+    value: title
+  });
+  Object.defineProperty(achievement, 'description', {
+    value: description
+  });
+
   this.achievements[achievement.title] = achievement;
 };
 
@@ -48,8 +60,10 @@ AchievementsManager.prototype.unserialize = function (data) {
     var _this = this;
     for (var title in data) {
       if (this.achievements[title]) {
-        this.achievements[title].isUnlocked = data[title].isUnlocked;
-        this.achievements[title].isShown = data[title].isShown;
+        var achievement = data[title];
+        for (var field in achievement) {
+          this.achievements[title][field] = achievement[field];
+        }
       }
     }
   }
@@ -58,10 +72,7 @@ AchievementsManager.prototype.unserialize = function (data) {
 AchievementsManager.prototype.serialize = function () {
   var res = {};
   for (var title in this.achievements) {
-    res[title] = {
-      isUnlocked: this.achievements[title].isUnlocked,
-      isShown: this.achievements[title].isShown
-    }
+    res[title] = this.achievements[title];
   }
   return res;
 };
