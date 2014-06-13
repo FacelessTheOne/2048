@@ -1,14 +1,21 @@
-function GameManager(size, InputManager, Actuator, StorageManager) {
+function GameManager(size, InputManager, Actuator, StorageManager, AchievementsManager) {
   this.size           = size; // Size of the grid
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
+  this.achievementsManager = new AchievementsManager(this.storageManager);
 
   this.startTiles     = 2;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+
+  this.achievementsManager.on("unlock", this.saveAchievments.bind(this));
+
+  this.eventListeners = [];
+
+  this.addListener(this.achievementsManager);
 
   this.setup();
 }
@@ -24,6 +31,8 @@ GameManager.prototype.restart = function () {
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
   this.actuator.continueGame(); // Clear the game won/lost message
+
+  this.emit("keepPlaying");
 };
 
 // Return true if the game is lost, or has won and the user hasn't kept playing
@@ -54,8 +63,13 @@ GameManager.prototype.setup = function () {
     this.addStartTiles();
   }
 
+  // Load achievements state
+  this.achievementsManager.unserialize(this.storageManager.getAchievements());
+
   // Update the actuator
   this.actuate();
+
+  this.emit("start", { previousState: previousState });
 };
 
 // Set up the initial tiles to start the game with
@@ -166,8 +180,13 @@ GameManager.prototype.move = function (direction) {
           // Update the score
           self.score += merged.value;
 
+          self.emit("merge", { direction: direction, tile: tile, merged: merged });
+
           // The mighty 2048 tile
-          if (merged.value === 2048) self.won = true;
+          if (merged.value === 2048) {
+            self.won = true;
+            self.emit("win");
+          }
         } else {
           self.moveTile(tile, positions.farthest);
         }
@@ -175,6 +194,7 @@ GameManager.prototype.move = function (direction) {
         if (!self.positionsEqual(cell, tile)) {
           moved = true; // The tile moved from its original cell!
         }
+        self.emit("tileMove", { direction: direction, tile: tile, moved: !self.positionsEqual(cell, tile) });
       }
     });
   });
@@ -184,10 +204,12 @@ GameManager.prototype.move = function (direction) {
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
+      this.emit("loose");
     }
 
     this.actuate();
   }
+  this.emit("move", { direction: direction, moved: moved });
 };
 
 // Get the vector representing the chosen direction
@@ -267,6 +289,29 @@ GameManager.prototype.tileMatchesAvailable = function () {
   return false;
 };
 
+GameManager.prototype.saveAchievments = function () {
+  this.storageManager.setAchievements(this.achievementsManager.serialize());
+};
+
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
+};
+
+GameManager.prototype.addListener = function (listener) {
+  this.eventListeners.push(listener);
+};
+
+GameManager.prototype.removeListener = function (listener) {
+  for (var i = 0, l = this.eventListeners.length; i < l; ++i) {
+    if (this.eventListeners[i] === listener) {
+      this.eventListeners.splice(i, 1);
+      break;
+    }
+  }
+};
+
+GameManager.prototype.emit = function (eventType, data) {
+  this.eventListeners.forEach(function (listener) {
+    listener.recieve.call(listener, eventType, data);
+  });
 };
