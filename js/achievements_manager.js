@@ -18,6 +18,9 @@ AchievementsManager.register = function (achievement) {
   Object.defineProperty(achievement, 'description', {
     value: description
   });
+  Object.defineProperty(achievement, 'manager', {
+    value: this
+  });
 
   this.achievements[achievement.title] = achievement;
 };
@@ -40,13 +43,22 @@ AchievementsManager.prototype.emit = function (event, data) {
 
 AchievementsManager.prototype.recieve = function (eventType, data) {
   var _this = this,
-    achievement;
+    achievement,
+    unlocked = false;
   for (var title in this.achievements) {
     achievement = this.achievements[title];
-    if (!achievement.isUnlocked && achievement.check(eventType, data)) {
+    if (!achievement.isUnlocked && achievement.update(eventType, data)) {
+      unlocked = true;
       _this.unlock(achievement);
     }
   }
+  if (this.unlocked) {
+    this.emit("update");
+  }
+};
+
+AchievementsManager.prototype.update = function () {
+  this.recieve();
 };
 
 AchievementsManager.prototype.unlock = function (achievement) {

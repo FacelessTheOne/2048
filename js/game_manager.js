@@ -3,7 +3,7 @@ function GameManager(size, InputManager, Actuator, StorageManager, AchievementsM
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
-  this.achievementsManager = new AchievementsManager(this.storageManager);
+  this.achievementsManager = new AchievementsManager();
 
   this.startTiles     = 2;
 
@@ -11,11 +11,13 @@ function GameManager(size, InputManager, Actuator, StorageManager, AchievementsM
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
-  this.achievementsManager.on("unlock", this.saveAchievments.bind(this));
+  this.achievementsManager.on("update", this.saveAchievments.bind(this));
 
   this.eventListeners = [];
 
   this.addListener(this.achievementsManager);
+
+  this.emit('init');
 
   this.setup();
 }
