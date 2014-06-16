@@ -1,5 +1,6 @@
 # 2048 achievements
 A clone of [Gabriele Cirulli's](http://github.com/gabrielecirulli/) [2048](http://gabrielecirulli.github.io/2048/) with simple achievement system.
+You can play it [here](http://facelesstheone.github.io/2048)
 
 My goal is to program 2048 achievements. It's quite a difficult task. So any contributions are welcome.
 
