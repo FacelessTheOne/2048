@@ -8,7 +8,6 @@ function AchievementsManager () {
 AchievementsManager.achievements = {};
 AchievementsManager.register = function (achievement) {
   achievement.isUnlocked = false;
-  achievement.isShown = false;
 
   var title = achievement.title,
     description = achievement.description;

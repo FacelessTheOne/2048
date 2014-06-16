@@ -17,6 +17,9 @@ function GameManager(size, InputManager, Actuator, StorageManager, AchievementsM
 
   this.addListener(this.achievementsManager);
 
+  // Load achievements state
+  this.achievementsManager.unserialize(this.storageManager.getAchievements());
+
   this.emit('init');
 
   this.setup();
@@ -64,9 +67,6 @@ GameManager.prototype.setup = function () {
     // Add the initial tiles
     this.addStartTiles();
   }
-
-  // Load achievements state
-  this.achievementsManager.unserialize(this.storageManager.getAchievements());
 
   // Update the actuator
   this.actuate();

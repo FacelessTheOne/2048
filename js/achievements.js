@@ -231,7 +231,7 @@ AchievementsManager.register({
   lastTimestamp: null,
   count: 0,
   update: function (manager, eventType, data) {
-    if (eventType == "start") {
+    if (eventType == "init") {
       var date = new Date();
       if (!this.lastTimestamp || (date - new Date(this.lastTimestamp) >= 2 * 24 * 60 * 60 * 1000)) {
         this.lastTimestamp = date;
@@ -303,16 +303,18 @@ AchievementsManager.register({
 });
 
 AchievementsManager.register({
-  title: "No.",
-  description: "Close game window in less than 10 seconds",
+  title: "No :|",
+  description: "Close or refresh game window in less than 2 seconds",
   res: false,
+  lastTimestamp: null,
   update: function (manager, eventType, data) {
     if (eventType == "init") {
       this.lastTimestamp = new Date();
 
       var self = this,
         onUnloadFn = function () {
-          if ((new Date() - self.lastTimestamp) < 10 * 1000) {
+          self.delta = new Date() - self.lastTimestamp;
+          if ((new Date() - self.lastTimestamp) < 2 * 1000) {
             self.res = true;
             manager.emit("update");
           }
