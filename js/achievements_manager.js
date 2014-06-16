@@ -66,8 +66,6 @@ AchievementsManager.prototype.unlock = function (achievement) {
 };
 
 AchievementsManager.prototype.show = function (achievement) {
-  console.log("Achievement unlocked: %s", achievement.title);
-
   var item = document.createElement("li");
   item.classList.add("achievement");
   
