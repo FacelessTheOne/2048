@@ -78,13 +78,8 @@ AchievementsManager.prototype.show = function (achievement) {
 
   var self = this;
   setTimeout(function () {
-    self._show(item);
-  }, 0);
-  setTimeout(function () {
     self._remove(item);
   }, this.popupRemoveDelay);
-};
-AchievementsManager.prototype._show = function (el) {
 };
 AchievementsManager.prototype._remove = function (el) {
   this.container.removeChild(el);
