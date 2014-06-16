@@ -1,6 +1,8 @@
 function AchievementsManager () {
   this.achievements = AchievementsManager.achievements;
   this.events = {};
+  this.container = document.querySelector(".achievements-container");
+  this.popupRemoveDelay = 5100;
 }
 
 AchievementsManager.achievements = {};
@@ -17,9 +19,6 @@ AchievementsManager.register = function (achievement) {
   });
   Object.defineProperty(achievement, 'description', {
     value: description
-  });
-  Object.defineProperty(achievement, 'manager', {
-    value: this
   });
 
   this.achievements[achievement.title] = achievement;
@@ -42,14 +41,13 @@ AchievementsManager.prototype.emit = function (event, data) {
 };
 
 AchievementsManager.prototype.recieve = function (eventType, data) {
-  var _this = this,
-    achievement,
+  var achievement,
     unlocked = false;
   for (var title in this.achievements) {
     achievement = this.achievements[title];
-    if (!achievement.isUnlocked && achievement.update(eventType, data)) {
+    if (!achievement.isUnlocked && achievement.update(this, eventType, data)) {
       unlocked = true;
-      _this.unlock(achievement);
+      this.unlock(achievement);
     }
   }
   if (this.unlocked) {
@@ -63,8 +61,35 @@ AchievementsManager.prototype.update = function () {
 
 AchievementsManager.prototype.unlock = function (achievement) {
   achievement.isUnlocked = true;
+  this.show(achievement);
   this.emit("unlock", achievement);
+};
+
+AchievementsManager.prototype.show = function (achievement) {
   console.log("Achievement unlocked: %s", achievement.title);
+
+  var item = document.createElement("li");
+  item.classList.add("achievement");
+  
+  var itemTitle = document.createElement("div");
+  itemTitle.classList.add("achievement-title");
+  itemTitle.textContent = achievement.title;
+
+  item.appendChild(itemTitle);
+  this.container.appendChild(item);
+
+  var self = this;
+  setTimeout(function () {
+    self._show(item);
+  }, 0);
+  setTimeout(function () {
+    self._remove(item);
+  }, this.popupRemoveDelay);
+};
+AchievementsManager.prototype._show = function (el) {
+};
+AchievementsManager.prototype._remove = function (el) {
+  this.container.removeChild(el);
 };
 
 AchievementsManager.prototype.unserialize = function (data) {
