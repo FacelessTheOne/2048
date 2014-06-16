@@ -49,7 +49,7 @@ AchievementsManager.prototype.recieve = function (eventType, data) {
       this.unlock(achievement);
     }
   }
-  if (this.unlocked) {
+  if (unlocked) {
     this.emit("update");
   }
 };
