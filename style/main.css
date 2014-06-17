@@ -167,6 +167,7 @@ hr { border: none; border-bottom: 1px solid #d8d4d0; margin-top: 20px; margin-bo
 @media screen and (max-width: 520px) { html, body { font-size: 15px; }
   body { margin-top: 0; padding: 20px; }
   h1.title { font-size: 27px; margin-top: 15px; }
+  h1.title small { bottom: -14px; }
   .container { width: 280px; margin: 0 auto; }
   .score-container, .best-container { margin-top: 0; padding: 15px 10px; min-width: 40px; }
   .heading { margin-bottom: 10px; }
@@ -261,24 +262,49 @@ hr { border: none; border-bottom: 1px solid #d8d4d0; margin-top: 20px; margin-bo
 .app-notice a { color: white; }
 @media screen and (max-width: 520px) { .app-notice { -webkit-animation: pop-in-small 700ms ease 2s both; -moz-animation: pop-in-small 700ms ease 2s both; animation: pop-in-small 700ms ease 2s both; margin-top: 10px; height: 76px; } }
 
-.achievements-container { position: fixed; right: 0; top: 0; margin: 50px 20px 0 0; padding: 0; }
-.achievements-container .achievement { position: relative; display: block; float: right; clear: both; list-style: none; background: #edc53f; border-radius: 3px; padding: 5px 10px; max-width: 250px; margin-bottom: 10px; -webkit-animation: achievement-show 5s linear; -moz-animation: achievement-show 5s linear; animation: achievement-show 5s linear; -webkit-animation-fill-mode: both; -moz-animation-fill-mode: both; animation-fill-mode: both; }
+.achievements-container { position: fixed; right: 0; top: 0; margin: 50px 20px 0 0; padding: 0; z-index: 10; }
+@media screen and (max-width: 520px) { .achievements-container { margin-top: 20px; } }
+.achievements-container .achievement { position: relative; display: block; float: right; clear: both; list-style: none; background: #edc53f; border-radius: 3px; padding: 5px 10px; max-width: 250px; margin-bottom: 10px; cursor: pointer; -webkit-animation: achievement-show 5.1s linear; -moz-animation: achievement-show 5.1s linear; animation: achievement-show 5.1s linear; -webkit-animation-fill-mode: both; -moz-animation-fill-mode: both; animation-fill-mode: both; }
+@media screen and (max-width: 520px) { .achievements-container .achievement { -webkit-animation: achievement-show-small 5.1s linear; -moz-animation: achievement-show-small 5.1s linear; animation: achievement-show-small 5.1s linear; } }
 .achievements-container .achievement-title { font-size: 24px; font-weight: bold; color: #fff; text-transform: uppercase; text-align: center; }
+@media screen and (max-width: 520px) { .achievements-container .achievement-title { font-size: 18px; } }
 .achievements-container .achievement-title:before { content: 'Achievement Unlocked!'; font-size: 18px; font-weight: normal; display: block; opacity: .7; }
+@media screen and (max-width: 520px) { .achievements-container .achievement-title:before { font-size: 14px; } }
 
 @-webkit-keyframes achievement-show { 0% { left: 100%; opacity: 0; }
   4% { left: 0; opacity: 1; }
-  96% { margin-top: 0; opacity: 1; }
+  90% { margin-top: 0; opacity: 1; }
+  94% { margin-top: -56px; opacity: 0; }
   100% { margin-top: -56px; opacity: 0; } }
 
 @-moz-keyframes achievement-show { 0% { left: 100%; opacity: 0; }
   4% { left: 0; opacity: 1; }
-  96% { margin-top: 0; opacity: 1; }
+  90% { margin-top: 0; opacity: 1; }
+  94% { margin-top: -56px; opacity: 0; }
   100% { margin-top: -56px; opacity: 0; } }
 
 @keyframes achievement-show { 0% { left: 100%; opacity: 0; }
   4% { left: 0; opacity: 1; }
-  96% { margin-top: 0; opacity: 1; }
+  90% { margin-top: 0; opacity: 1; }
+  94% { margin-top: -56px; opacity: 0; }
+  100% { margin-top: -56px; opacity: 0; } }
+
+@-webkit-keyframes achievement-show-small { 0% { left: 100%; opacity: 0; }
+  4% { left: 0; opacity: .7; }
+  90% { margin-top: 0; opacity: .7; }
+  94% { margin-top: -56px; opacity: 0; }
+  100% { margin-top: -56px; opacity: 0; } }
+
+@-moz-keyframes achievement-show-small { 0% { left: 100%; opacity: 0; }
+  4% { left: 0; opacity: .7; }
+  90% { margin-top: 0; opacity: .7; }
+  94% { margin-top: -56px; opacity: 0; }
+  100% { margin-top: -56px; opacity: 0; } }
+
+@keyframes achievement-show-small { 0% { left: 100%; opacity: 0; }
+  4% { left: 0; opacity: .7; }
+  90% { margin-top: 0; opacity: .7; }
+  94% { margin-top: -56px; opacity: 0; }
   100% { margin-top: -56px; opacity: 0; } }
 
 /*@ sourceMappingURL=main.css.map */

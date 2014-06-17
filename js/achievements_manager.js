@@ -2,7 +2,7 @@ function AchievementsManager () {
   this.achievements = AchievementsManager.achievements;
   this.events = {};
   this.container = document.querySelector(".achievements-container");
-  this.popupRemoveDelay = 5100;
+  this.popupRemoveDelay = 5000;
 }
 
 AchievementsManager.achievements = {};
