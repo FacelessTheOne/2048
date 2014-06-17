@@ -955,3 +955,56 @@ hr {
     opacity: 0;
   }
 }
+
+.achievements-list-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 80px 0;
+  display: none;
+  background: rgba(255, 255, 255, .9);
+  z-index: 10;
+  overflow-y: auto;
+  @include smaller($mobile-threshold) {
+    padding: 20px 0;
+  }
+  &.shown {
+    display: block;
+  }
+  .achievements-list-header {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .achievements-list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .achievement {
+    display: block;
+    padding: 10px 0;
+    &.highlighted {
+      background: #edc53f;
+    }
+    &.locked {
+      opacity: .5;
+    }
+  }
+  .achievement-inner {
+    width: 500px;
+    margin: 0 auto;
+    @include smaller($mobile-threshold) {
+      width: 280px;
+    }
+  }
+  .achievement-title {
+    font-size: 24px;
+  }
+  .achievement-description {
+    font-size: 18px;
+  }
+  .achievement-tweet {}
+}
