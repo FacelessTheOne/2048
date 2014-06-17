@@ -596,6 +596,9 @@ hr {
   h1.title {
     font-size: 27px;
     margin-top: 15px;
+    small {
+      bottom: -14px;
+    }
   }
 
   .container {
@@ -862,6 +865,10 @@ hr {
   top: 0;
   margin: 50px 20px 0 0;
   padding: 0;
+  z-index: 10;
+  @include smaller($mobile-threshold) {
+    margin-top: 20px;
+  }
   .achievement {
     position: relative;
     display: block;
@@ -873,8 +880,13 @@ hr {
     padding: 5px 10px;
     max-width: 250px;
     margin-bottom: 10px;
-    @include animation(achievement-show 5s linear);
+    cursor: pointer;
+    @include animation(achievement-show 5.1s linear);
     @include animation-fill-mode(both);
+
+    @include smaller($mobile-threshold) {
+      @include animation(achievement-show-small 5.1s linear);
+    }
   }
   .achievement-title {
     font-size: 24px;
@@ -882,12 +894,18 @@ hr {
     color: #fff;
     text-transform: uppercase;
     text-align: center;
+    @include smaller($mobile-threshold) {
+      font-size: 18px;
+    }
     &:before {
       content: 'Achievement Unlocked!';
       font-size: 18px;
       font-weight: normal;
       display: block;
       opacity: .7;
+      @include smaller($mobile-threshold) {
+        font-size: 14px;
+      }
     }
   }
 }
@@ -901,9 +919,36 @@ hr {
     left: 0;
     opacity: 1;
   }
-  96% {
+  90% {
     margin-top: 0;
     opacity: 1;
+  }
+  94% {
+    margin-top: -56px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: -56px;
+    opacity: 0;
+  }
+}
+
+@include keyframes(achievement-show-small) {
+  0% {
+    left: 100%;
+    opacity: 0;
+  }
+  4% {
+    left: 0;
+    opacity: .7;
+  }
+  90% {
+    margin-top: 0;
+    opacity: .7;
+  }
+  94% {
+    margin-top: -56px;
+    opacity: 0;
   }
   100% {
     margin-top: -56px;
